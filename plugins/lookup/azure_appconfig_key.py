@@ -130,7 +130,7 @@ class LookupModule(LookupBase):
 
         token_params = {
             'api-version': '2018-02-01',
-            'resource': f"{appconfigstore_url}/.default"
+            'resource': f"{appconfigstore_url}"
         }
 
         token_headers = {
