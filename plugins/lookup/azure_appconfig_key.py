@@ -10,7 +10,7 @@ DOCUMENTATION = """
 name: azure_appconfig_key
 author:
     - Charon De Beukelaer (@charondb)
-version_added: '1.20.0'
+version_added: '3.13.0'
 requirements:
     - azure-appconfiguration
 short_description: Read key values from Azure App Configuration.
