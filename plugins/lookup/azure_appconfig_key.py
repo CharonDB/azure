@@ -116,6 +116,10 @@ class LookupModule(LookupBase):
                 raise AnsibleError('Failed to fetch key {0} from {1}.'.format(term, client._endpoint))
         return ret
 
+    def _lookup_key_non_msi(self, terms, appconfigstore_url, auth_source):
+        # Backward-compatible path for non-MSI auth.
+        return self._lookup_key(terms, appconfigstore_url, auth_source)
+
     def run(self, terms, variables, **kwargs):
 
         self.set_options(direct=kwargs)
