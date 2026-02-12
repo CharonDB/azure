@@ -67,6 +67,7 @@ from ansible_collections.azure.azcollection.plugins.module_utils.azure_rm_common
 from ansible.errors import AnsibleError
 from ansible.plugins.lookup import LookupBase
 from ansible.utils.display import Display
+from ansible.module_utils.six.moves.urllib.parse import urlparse
 
 try:
     import logging
@@ -160,6 +161,18 @@ class LookupModule(LookupBase):
 
         if appconfigstore_url is None:
             raise AnsibleError('Failed to get valid App Configuration store URL.')
+        parsed_url = urlparse(appconfigstore_url)
+        if parsed_url.hostname in ('localhost', '127.0.0.1'):
+            appconfig_params = {'api-version': '2024-09-01'}
+            for term in terms:
+                try:
+                    secret_res = requests.get(appconfigstore_url + '/kv/' + term, params=appconfig_params)
+                    ret.append(secret_res.json()["value"])
+                except KeyError:
+                    raise AnsibleError('Failed to fetch secret ' + term + ' from ' + appconfigstore_url + '.')
+                except Exception:
+                    raise AnsibleError('Failed to fetch secret ' + term + ' from ' + appconfigstore_url + ' without auth.')
+            return ret
         if TOKEN_ACQUIRED:
             appconfig_params = {'api-version': '2024-09-01'}
             appconfig_headers = {'Authorization': 'Bearer ' + token}
