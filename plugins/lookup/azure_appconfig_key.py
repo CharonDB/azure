@@ -12,6 +12,8 @@ author:
     - Charon De Beukelaer (@charondb)
 version_added: '3.13.0'
 requirements:
+    - requests
+    - azure
     - azure-appconfiguration
 short_description: Read key values from Azure App Configuration.
 description:
