@@ -168,24 +168,24 @@ class LookupModule(LookupBase):
             appconfig_params = {'api-version': '2024-09-01'}
             for term in terms:
                 try:
-                    secret_res = requests.get(appconfigstore_url + '/kv/' + term, params=appconfig_params)
-                    ret.append(secret_res.json()["value"])
+                    config_res = requests.get(appconfigstore_url + '/kv/' + term, params=appconfig_params)
+                    ret.append(config_res.json()["value"])
                 except KeyError:
-                    raise AnsibleError('Failed to fetch secret ' + term + ' from ' + appconfigstore_url + '.')
+                    raise AnsibleError('Failed to fetch key ' + term + ' from ' + appconfigstore_url + '.')
                 except Exception:
-                    raise AnsibleError('Failed to fetch secret ' + term + ' from ' + appconfigstore_url + ' without auth.')
+                    raise AnsibleError('Failed to fetch key ' + term + ' from ' + appconfigstore_url + ' without auth.')
             return ret
         if TOKEN_ACQUIRED:
             appconfig_params = {'api-version': '2024-09-01'}
             appconfig_headers = {'Authorization': 'Bearer ' + token}
             for term in terms:
                 try:
-                    secret_res = requests.get(appconfigstore_url + '/kv/' + term, params=appconfig_params, headers=appconfig_headers)
-                    ret.append(secret_res.json()["value"])
+                    config_res = requests.get(appconfigstore_url + '/kv/' + term, params=appconfig_params, headers=appconfig_headers)
+                    ret.append(config_res.json()["value"])
                 except KeyError:
-                    raise AnsibleError('Failed to fetch secret ' + term + ' from ' + appconfigstore_url + '.')
+                    raise AnsibleError('Failed to fetch key ' + term + ' from ' + appconfigstore_url + '.')
                 except Exception:
-                    raise AnsibleError('Failed to fetch secret ' + term + ' from ' + appconfigstore_url + ' via MSI endpoint.')
+                    raise AnsibleError('Failed to fetch key ' + term + ' from ' + appconfigstore_url + ' via MSI endpoint.')
             return ret
         else:
             return self._lookup_key_non_msi(terms, appconfigstore_url, auth_source)
