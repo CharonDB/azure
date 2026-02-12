@@ -157,7 +157,7 @@ class LookupModule(LookupBase):
         if appconfigstore_url is None:
             raise AnsibleError('Failed to get valid App Configuration store URL.')
         if TOKEN_ACQUIRED:
-            appconfig_params = {'api-version': '2023-11-01'}
+            appconfig_params = {'api-version': '2024-09-01'}
             appconfig_headers = {'Authorization': 'Bearer ' + token}
             for term in terms:
                 try:
